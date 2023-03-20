@@ -24,6 +24,11 @@ class ImageProcessorStub(object):
                 request_serializer=image__pb2.PointCloud.SerializeToString,
                 response_deserializer=image__pb2.Processed.FromString,
                 )
+        self.SendPointCloudStream = channel.stream_unary(
+                '/ImageProcessor/SendPointCloudStream',
+                request_serializer=image__pb2.PointCloud.SerializeToString,
+                response_deserializer=image__pb2.Processed.FromString,
+                )
 
 
 class ImageProcessorServicer(object):
@@ -41,6 +46,12 @@ class ImageProcessorServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def SendPointCloudStream(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ImageProcessorServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -51,6 +62,11 @@ def add_ImageProcessorServicer_to_server(servicer, server):
             ),
             'SendPointCloud': grpc.unary_unary_rpc_method_handler(
                     servicer.SendPointCloud,
+                    request_deserializer=image__pb2.PointCloud.FromString,
+                    response_serializer=image__pb2.Processed.SerializeToString,
+            ),
+            'SendPointCloudStream': grpc.stream_unary_rpc_method_handler(
+                    servicer.SendPointCloudStream,
                     request_deserializer=image__pb2.PointCloud.FromString,
                     response_serializer=image__pb2.Processed.SerializeToString,
             ),
@@ -93,6 +109,23 @@ class ImageProcessor(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/ImageProcessor/SendPointCloud',
+            image__pb2.PointCloud.SerializeToString,
+            image__pb2.Processed.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SendPointCloudStream(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_unary(request_iterator, target, '/ImageProcessor/SendPointCloudStream',
             image__pb2.PointCloud.SerializeToString,
             image__pb2.Processed.FromString,
             options, channel_credentials,

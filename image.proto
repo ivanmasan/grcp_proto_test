@@ -4,6 +4,7 @@ syntax = "proto3";
 service ImageProcessor {
   rpc SendImage (Image) returns (Processed) {}
   rpc SendPointCloud (PointCloud) returns (Processed) {}
+  rpc SendPointCloudStream (stream PointCloud) returns (Processed) {}
 }
 
 message Processed {

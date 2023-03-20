@@ -35,7 +35,7 @@ def run():
         )
 
         response = stub.SendImage(image)
-        print("Image Process Time", time.time() - start_time)
+        print("Image Process Time", response.success, time.time() - start_time)
 
         point_cloud_data = np.random.rand(image_height, image_width, 3).astype(np.float32)
 
@@ -49,7 +49,28 @@ def run():
         )
 
         response = stub.SendPointCloud(image)
-        print("Point Cloud Process Time", time.time() - start_time)
+        print("Point Cloud Process Time", response.success, time.time() - start_time)
+
+        point_cloud_data = np.random.rand(image_height, image_width, 3).astype(np.float32)
+
+        start_time = time.time()
+
+        def yield_image(point_cloud_data):
+            image_bytes = point_cloud_data.tobytes()
+
+            while len(image_bytes) > 0:
+                yield image_pb2.PointCloud(
+                    data=image_bytes[:8*1024**2],
+                    rows=point_cloud_data.shape[0],
+                    columns=point_cloud_data.shape[1],
+                    depth=point_cloud_data.shape[2],
+                )
+                image_bytes = image_bytes[8*1024**2:]
+
+        response = stub.SendPointCloudStream(yield_image(point_cloud_data))
+        print("Point Cloud Process Time", response.success, time.time() - start_time)
+
+
 
 
 if __name__ == '__main__':

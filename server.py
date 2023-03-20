@@ -18,6 +18,16 @@ class ImageProcessor(image_pb2_grpc.ImageProcessorServicer):
             (request.rows, request.columns, request.depth))
         return image_pb2.Processed(success=True)
 
+    def SendPointCloudStream(self, request_iterator, context):
+        image_bytes = b''
+        for request in request_iterator:
+            image_bytes += request.data
+
+        received_image = np.frombuffer(image_bytes, dtype=np.float32).reshape(
+            (request.rows, request.columns, request.depth))
+
+        return image_pb2.Processed(success=True)
+
 
 MAX_MESSAGE_LENGTH = 40 * 1024 ** 2
 
@@ -29,7 +39,7 @@ def serve():
         ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH),
     ]
 
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1), options=options)
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=3), options=options)
     image_pb2_grpc.add_ImageProcessorServicer_to_server(ImageProcessor(), server)
     server.add_insecure_port('[::]:' + port)
     server.start()
