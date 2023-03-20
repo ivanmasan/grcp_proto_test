@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+
+service ImageProcessor {
+  rpc SendImage (Image) returns (Processed) {}
+  rpc SendPointCloud (PointCloud) returns (Processed) {}
+}
+
+message Processed {
+  bool success = 1;
+}
+
+message Image {
+  bytes data = 1;
+  int32 rows = 2;
+  int32 columns = 3;
+}
+
+message PointCloud {
+  bytes data = 1;
+  int32 rows = 2;
+  int32 columns = 3;
+  int32 depth = 4;
+}
