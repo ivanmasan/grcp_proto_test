@@ -39,7 +39,7 @@ def serve():
         ('grpc.max_receive_message_length', MAX_MESSAGE_LENGTH),
     ]
 
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=3), options=options)
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=1), options=options)
     image_pb2_grpc.add_ImageProcessorServicer_to_server(ImageProcessor(), server)
     server.add_insecure_port('[::]:' + port)
     server.start()

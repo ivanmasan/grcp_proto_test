@@ -29,18 +29,23 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 time.sleep(0.1)
                 continue
 
+            print("Receiving Message", time.time())
+            t = time.time()
+
             size = int.from_bytes(size_bytes, byteorder='big')
             message = receive_all(conn, size)
 
-            print("Received Message", time.time())
+            print("Received Message", time.time() - t)
+            t = time.time()
 
             received_image = image_pb2.PointCloud()
             received_image.ParseFromString(message)
 
-            print("Parsed Protobuf Message", time.time())
+            print("Parsed Protobuf Message", time.time() - t)
+            t = time.time()
 
             received_image = np.frombuffer(received_image.data, dtype=np.float32).reshape(
                 (received_image.rows, received_image.columns, received_image.depth))
 
-            print("Parsed Numpy Buffer", time.time())
-
+            print("Parsed Numpy Buffer", time.time() - t)
+            print(time.time())

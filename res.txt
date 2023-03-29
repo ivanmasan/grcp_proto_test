@@ -1,0 +1,39 @@
+Connected                   1679481226.798651
+Start                       1679481226.899924
+Serialized Numpy            1679481226.929764
+Serialized Protobuf         1679481226.9585657
+Added Length                1679481226.9733927
+Sent Message                1679481227.0854118
+Received Message            1679481227.132527
+Parsed Protobuf Message     1679481227.1458826
+Parsed Numpy Buffer         1679481227.1608932
+
+
+Connected                   1679910183.8080137
+Start                       1679910184.0938568
+Serialized Numpy            1679910184.0938568
+Serialized Protobuf         1679910184.1358793
+Added Length                1679910184.1531289
+Sent Message                1679910184.170353
+Received Message            1679910184.1887627
+Parsed Protobuf Message     1679910184.203801
+Parsed Numpy Buffer         1679910184.2201989
+
+
+Serialized Numpy            0ms
+Serialized Protobuf         42ms
+Added Length                17ms
+Sent Message                17ms
+Received Message            18ms
+Parsed Protobuf Message     15ms
+Parsed Numpy Buffer         16ms
+
+Bitified Numpy              14ms
+Serialized Numpy            14ms
+Serialized Protobuf         30ms
+Added Length                15ms
+Sent Message                9ms
+Receiving Message           -11ms
+Received Message            14ms
+Parsed Protobuf Message     14ms
+Parsed Numpy Buffer         17ms

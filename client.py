@@ -28,8 +28,11 @@ def run():
 
         start_time = time.time()
 
+        image_bytes = image_data.tobytes()
+        print("To Bytes", time.time() - start_time)
+
         image = image_pb2.Image(
-            data=image_data.tobytes(),
+            data=image_bytes,
             rows=image_data.shape[0],
             columns=image_data.shape[1]
         )
@@ -69,8 +72,6 @@ def run():
 
         response = stub.SendPointCloudStream(yield_image(point_cloud_data))
         print("Point Cloud Process Time", response.success, time.time() - start_time)
-
-
 
 
 if __name__ == '__main__':
